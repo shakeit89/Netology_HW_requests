@@ -1,10 +1,9 @@
 import sys
-
 from tokens import token_yandex
 import requests
 
-
 TOKEN = token_yandex
+
 
 class YaUploader:
     def __init__(self, token=TOKEN):
@@ -36,9 +35,8 @@ class YaUploader:
 
         return r.json()['href']
 
-    def get_file_name_from_path(self, path):   #возвращает имя файла из пути (для Windows!)
-        return path[path.rfind('/')+1:]
-
+    def get_file_name_from_path(self, path):  # возвращает имя файла из пути (для Windows!)
+        return path[path.rfind('/') + 1:]
 
     def upload(self, upload_file: str):
         file_name = self.get_file_name_from_path(upload_file)
@@ -46,6 +44,7 @@ class YaUploader:
             r = requests.put(self.get_link_to_upload(path=file_name), data=f.read())
             if r.status_code == 201:
                 print(f'Файл {file_name} успешно загружен на Я.Диск')
+
 
 if __name__ == '__main__':
     path_to_file = 'files/test_ya_disc.txt'
