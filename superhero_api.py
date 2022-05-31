@@ -21,8 +21,8 @@ class Superhero:
             print(f'Нет соединения с сервером. Супергерой {self.name} не будет учтен в дальнейшем')
             self.id = ''
             return self.id
-        response.raise_for_status()
-        if response.status_code < 200 or response.status_code >= 300:
+        # response.raise_for_status()
+        if response.status_code != 200:
             print(f'При получении данных возникла ошибка {response.status_code}, супергерой {self.name} не будет '
                   f'учтен в дальнейшем')
             self.id = ''
@@ -30,8 +30,9 @@ class Superhero:
         if response.json()['response'] != 'error':
             self.id = response.json()['results'][0]['id']
             return self.id
-        print(f'Супергероя по имени {self.name} не существует')
-        self.id = ''
+        else:
+            print(f'При поиске супергероя {self.name} возникла ошибка: {response.json()["error"]}')
+            self.id = ''
 
     def get_intelligence(self):
         self.get_hero_id()
