@@ -2,6 +2,7 @@ import requests
 from time import sleep
 from datetime import datetime, timedelta
 
+
 class Stack_question:
     def __init__(self, tag="python", days=2):
         self.tag = tag
@@ -22,7 +23,7 @@ class Stack_question:
     #         required_date = datetime.fromtimestamp(r.json()['items'][0]['creation_date'])
     #         print(f'Ссылка не вопрос: {required_link}. Дата публикации: {required_date}')
 
-    #запрос через параметры
+    # запрос через параметры
 
     def get_questions(self):
         params = {
@@ -32,7 +33,7 @@ class Stack_question:
             'sort': 'creation',
             'site': 'stackoverflow'}
 
-        for page in range(1, 26): #максимальное число доступных страниц без токена 25
+        for page in range(1, 26):  # максимальное число доступных страниц без токена 25
             params['page'] = page
             url = f'https://api.stackexchange.com/2.3/questions'
             r = requests.get(url, params=params)
