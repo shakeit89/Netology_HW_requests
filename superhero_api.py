@@ -2,7 +2,7 @@ import requests
 from tokens import token_superhero
 from pprint import pprint
 
-TOKEN = token_superhero
+TOKEN = token_superhero #указываем свой токен
 
 
 class Superhero:
@@ -13,15 +13,17 @@ class Superhero:
         self.id = None
         self.intelligence = None
 
-    def get_hero_id(self):
+    def _get_hero_id(self):
+        # получаем id героя по имени
         url = f'https://superheroapi.com/api/{self.token}/search/{self.name}'
+        #проверяем наличие интернета
         try:
             response = requests.get(url, timeout=5)
         except requests.ConnectionError:
             print(f'Нет соединения с сервером. Супергерой {self.name} не будет учтен в дальнейшем')
             self.id = ''
             return self.id
-        # response.raise_for_status()
+        # проверяем запрос на ошибки
         if response.status_code != 200:
             print(f'При получении данных возникла ошибка {response.status_code}, супергерой {self.name} не будет '
                   f'учтен в дальнейшем')
@@ -35,8 +37,9 @@ class Superhero:
             self.id = ''
 
     def get_intelligence(self):
-        self.get_hero_id()
-        if not self.id:  # проверка на несуществующего супергероя
+        #получаем интеллект супергероя
+        self._get_hero_id()
+        if not self.id:  # проверка на несуществующего супергероя, если в функции get_hero_id была ошибка - то прерываем
             self.intelligence = 0
             return 0
         url = f'https://superheroapi.com/api/{self.token}/{self.id}/powerstats'
@@ -49,6 +52,6 @@ class Superhero:
 
 if __name__ == "__main__":
     hulk = Superhero('Hulk')
-    pprint(hulk.get_hero_id())
+    pprint(hulk._get_hero_id())
     pprint(hulk.get_intelligence())
     print(hulk.id, hulk.intelligence)
