@@ -44,6 +44,8 @@ class YaUploader:
             r = requests.put(self.get_link_to_upload(path=file_name), data=f.read())
             if r.status_code == 201:
                 print(f'Файл {file_name} успешно загружен на Я.Диск')
+            else:
+                print(f'При загрузке файла произошла ошибка {r.status_code}')
 
 
 if __name__ == '__main__':

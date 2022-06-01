@@ -1,9 +1,10 @@
+import sys
 import requests
 from time import sleep
 from datetime import datetime, timedelta
 
 
-class Stack_question:
+class StackQuestion:
     def __init__(self, tag="python", days=2):
         self.tag = tag
         self.days = days
@@ -36,7 +37,12 @@ class Stack_question:
         for page in range(1, 26):  # максимальное число доступных страниц без токена 25
             params['page'] = page
             url = f'https://api.stackexchange.com/2.3/questions'
-            r = requests.get(url, params=params)
+
+            try:
+                r = requests.get(url, params=params)
+            except requests.ConnectionError:
+                print(f'Нет соединения с сервером. Возможно, отсутствует подключение к интернету')
+                sys.exit()
             if r.status_code != 200:
                 print(f'Ошибка! Имя ошибки: {r.json()["error_name"]}. Сообщение ошибки: {r.json()["error_message"]}')
                 return
@@ -48,5 +54,5 @@ class Stack_question:
 
 
 if __name__ == '__main__':
-    overstack = Stack_question()
+    overstack = StackQuestion()
     overstack.get_questions()
