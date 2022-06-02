@@ -38,8 +38,8 @@ class YaUploader:
 
         return r.json()['href']
 
-    def _get_file_name_from_path(self, path):  # возвращает имя файла из пути (для Windows \ для linux /!)
-        return path[path.rfind('/') + 1:]
+    def _get_file_name_from_path(self, path):  # возвращает имя файла из пути (для Windows \ для linux /! )
+        return path[path.rfind('/') + 1:]  #сделать автоматически
 
     def upload(self, upload_file: str):
         file_name = f"/files_for_netology/" + self._get_file_name_from_path(upload_file)
